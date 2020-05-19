@@ -19,6 +19,7 @@ place* readplace(ifstream& file)
 	place* coor = new place[MAX];
 	string s;
 	setlocale(LC_ALL, "ukr"); //короче это штука очень важная
+	ofstream f("d:\\M.txt");
 	for (int i = 0; i < MAX; i++)
 	{
 		getline(file, s, ';');
