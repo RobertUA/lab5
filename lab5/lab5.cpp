@@ -1,14 +1,13 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <vector>
 #include <string>
 #include <cmath>
 
 using namespace std;
+
 #define MAX 129266
 #define PI 3.1415926535
 #define R 6371
-#define DIST 7
 
 class Tree2;
 class Tree1;
@@ -65,26 +64,40 @@ public:
 		place[count] = newplace;
 		count++;
 	}
-	void Find(double w, double l)
+	void Find(double w, double l, int dist)
 	{
-		//for (int i = 0; i < count; i++) cout << place[i] << endl;
-		cout << endl << count;
+		int cc=0;
+		for (int i = 0; i < count; i++)
+		{
+			//cout << Distance(w, l, place[i].width, place[i].height) << endl;
+			if (Distance(w, l, place[i].width, place[i].height) <= dist)
+			{
+				//cout << i << ") ";
+				cout << place[i].type
+					<< " " << place[i].undertype << " " 
+					<< place[i].name << " " << place[i].address << endl;
+				cc++;
+			}
+		}
+		cout << endl << "COUNT: " <<  cc;
 	}
 };
 
 class Tree1
 {
 private:
+	int DIST;
 	double width1, width2, long1, long2;
 	Tree2* tree2;
 public:
-	Tree1(double w1, double l1, double w2, double l2)
+	Tree1(double w1, double l1, double w2, double l2, int dist)
 	{
+		DIST = dist;
 		width1 = w1;
 		long1 = l1;
 		width2 = w2;
 		long2 = l2;
-		//cout << (width2 - width1) * (long2 - long1) / DIST + 1;
+		/*cout << (width2 - width1) * (long2 - long1) / DIST + 1;*/															if (DIST <= 5) DIST = 6;
 		tree2 = new Tree2[int((width2 - width1) * (long2 - long1) / DIST + 1)];
 	}
 	void Put(Place newplace)
@@ -103,7 +116,7 @@ public:
 		}
 		//cout << "PUT 1\n";
 	}
-	void Find(double w, double l)
+	void Find(double w, double l, int dist)
 	{
 		int C = 0;
 		for (double i = width1; i <= width2; i += DIST)
@@ -112,7 +125,7 @@ public:
 			{
 				if (i <= w && i + DIST > w
 					&& j <= l && j + DIST > l)
-						tree2[C].Find(w, l);
+						tree2[C].Find(w, l, dist);
 				C++;
 			}
 		}
@@ -124,13 +137,20 @@ int main()
 {
 	double w1=INT_MAX, l1=INT_MAX, w2=-1, l2=-1;
 	ifstream file("ukraine_poi.csv");
+	int DIST;
+	double width, longg;
+	cout << "Print Width, Long and Radius: ";
+	cin >> width >> longg >> DIST;
+	cout << "\nRead...\n";
 	Place* coor = readplace(file, w1, l1, w2, l2);
-	Tree1 tree(w1, l1, w2, l2);
+	cout << "Create and search...\n";
+	Tree1 tree(w1, l1, w2, l2, DIST);
 	for (int i = 0; i < MAX; i++)
 	{
 		tree.Put(coor[i]);
 	}
-	tree.Find(coor[2].width, coor[2].height);
+	//cout << "Search...\n";
+	tree.Find(width, longg, DIST);
 	return 1;
 }
 
