@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include <ctime>
 
 using namespace std;
 
@@ -137,20 +138,29 @@ int main()
 {
 	double w1=INT_MAX, l1=INT_MAX, w2=-1, l2=-1;
 	ifstream file("ukraine_poi.csv");
-	int DIST;
-	double width, longg;
-	cout << "Print Width, Long and Radius: ";
-	cin >> width >> longg >> DIST;
+	int DIST=1;
+	double width=1, longg;
 	cout << "\nRead...\n";
 	Place* coor = readplace(file, w1, l1, w2, l2);
-	cout << "Create and search...\n";
-	Tree1 tree(w1, l1, w2, l2, DIST);
+	cout << "Create...\n";
+	Tree1 tree(w1, l1, w2, l2, 15);
 	for (int i = 0; i < MAX; i++)
 	{
 		tree.Put(coor[i]);
 	}
-	//cout << "Search...\n";
-	tree.Find(width, longg, DIST);
+	
+	while(1)
+	{
+		cout << "\nPrint Width, Long and Radius: ";
+		cin >> width;
+		if (width == -1) break;
+		cin >> longg >> DIST;
+		cout << "Search...\n";
+		double TIME = clock();
+		tree.Find(width, longg, DIST);
+		TIME = (clock() - TIME)/CLOCKS_PER_SEC;
+		cout << "\nTIME: " << TIME;
+	}
 	return 1;
 }
 
