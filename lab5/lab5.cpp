@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <cmath>
-
+#include<ctime>
 using namespace std;
 
 #define MAX 129266
@@ -79,7 +79,7 @@ public:
 				cc++;
 			}
 		}
-		cout << endl << "COUNT: " <<  cc;
+		cout << endl << "COUNT: " <<  cc<<endl;
 	}
 };
 
@@ -150,7 +150,29 @@ int main()
 		tree.Put(coor[i]);
 	}
 	//cout << "Search...\n";
+	double start = clock();
 	tree.Find(width, longg, DIST);
+	double end = clock();
+	double search = (end - start)/CLOCKS_PER_SEC;
+	cout << "Time for poshuk: " << search << endl;
+	double start_time = clock();
+	int cc = 0;
+	for (int i = 0; i < MAX; i++)
+	{
+		//cout << Distance(w, l, place[i].width, place[i].height) << endl;
+		if (Distance(width, longg, coor[i].width, coor[i].height) <= DIST)
+		{
+			//cout << i << ") ";
+			cout << coor[i].type
+				<< " " << coor[i].undertype << " "
+				<< coor[i].name << " " << coor[i].address << endl;
+			cc++;
+		}
+	}
+	double end_time = clock();
+	double search_time = (end_time - start_time)/CLOCKS_PER_SEC;
+	cout << "COUNT: " << cc << endl;
+	cout <<"Fin:"<< search_time<<endl;
 	return 1;
 }
 
