@@ -74,13 +74,13 @@ public:
 			if (Distance(w, l, place[i].width, place[i].height) <= dist)
 			{
 				//cout << i << ") ";
-				cout << place[i].type
+				/*cout << place[i].type
 					<< " " << place[i].undertype << " " 
-					<< place[i].name << " " << place[i].address << endl;
+					<< place[i].name << " " << place[i].address << endl;*/
 				cc++;
 			}
 		}
-		cout << endl << "COUNT: " <<  cc<<endl;
+		cout << endl << "[Крутой] COUNT: " <<  cc<<endl;
 	}
 };
 
@@ -143,35 +143,11 @@ int main()
 	cout << "\nRead...\n";
 	Place* coor = readplace(file, w1, l1, w2, l2);
 	cout << "Create...\n";
-	Tree1 tree(w1, l1, w2, l2, 15);
+	Tree1 tree(w1, l1, w2, l2, 8);
 	for (int i = 0; i < MAX; i++)
 	{
 		tree.Put(coor[i]);
 	}
-	//cout << "Search...\n";
-	double start = clock();
-	tree.Find(width, longg, DIST);
-	double end = clock();
-	double search = (end - start)/CLOCKS_PER_SEC;
-	cout << "Time for poshuk: " << search << endl;
-	double start_time = clock();
-	int cc = 0;
-	for (int i = 0; i < MAX; i++)
-	{
-		//cout << Distance(w, l, place[i].width, place[i].height) << endl;
-		if (Distance(width, longg, coor[i].width, coor[i].height) <= DIST)
-		{
-			//cout << i << ") ";
-			cout << coor[i].type
-				<< " " << coor[i].undertype << " "
-				<< coor[i].name << " " << coor[i].address << endl;
-			cc++;
-		}
-	}
-	double end_time = clock();
-	double search_time = (end_time - start_time)/CLOCKS_PER_SEC;
-	cout << "COUNT: " << cc << endl;
-	cout <<"Fin:"<< search_time<<endl;
 	
 	while(1)
 	{
@@ -183,7 +159,27 @@ int main()
 		double TIME = clock();
 		tree.Find(width, longg, DIST);
 		TIME = (clock() - TIME)/CLOCKS_PER_SEC;
-		cout << "\nTIME: " << TIME;
+		cout << "[Крутой] TIME: " << TIME;
+		////////////
+		cout << "\n----\n";
+		double start_time = clock();
+		int cc = 0;
+		for (int i = 0; i < MAX; i++)
+		{
+			//cout << Distance(w, l, place[i].width, place[i].height) << endl;
+			if (Distance(width, longg, coor[i].width, coor[i].height) <= DIST)
+			{
+				//cout << i << ") ";
+				/*cout << coor[i].type
+					<< " " << coor[i].undertype << " "
+					<< coor[i].name << " " << coor[i].address << endl;*/
+				cc++;
+			}
+		}
+		double end_time = clock();
+		double search_time = (end_time - start_time) / CLOCKS_PER_SEC;
+		cout << "[Перебор] COUNT: " << cc << endl;
+		cout << "[Перебор] TIME: " << search_time << endl;
 	}
 	return 1;
 }
